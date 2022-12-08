@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+  <Match>
+    <Class name="~.*Dto" />
+  </Match>
+  <Match>
+    <Class name="~.*_" />
+  </Match>
+  <Match>
+    <Class name="ga.rugal.raizekusu.core.entity.User" />
+    <Bug pattern="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" />
+  </Match>
+  <Match>
+    <Class name="config.DaggerJwsLibrary" />
+    <Bug pattern="URF_UNREAD_FIELD" />
+  </Match>
+</FindBugsFilter>
