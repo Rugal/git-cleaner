@@ -79,7 +79,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
-          <skip>true</skip>
+          <skip>false</skip>
         </configuration>
       </plugin>
       <!-- spotbugs -->
@@ -124,6 +124,7 @@
               <version>${dagger.version}</version>
             </path>
           </annotationProcessorPaths>
+          <showDeprecation>true</showDeprecation>
         </configuration>
       </plugin>
     </plugins>

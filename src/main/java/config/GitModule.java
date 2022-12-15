@@ -16,14 +16,17 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 @Module
 public interface GitModule {
 
+  /**
+   * Provide Git repository object.
+   *
+   * @return Git repository object
+   * @throws RuntimeException Unable to read from file system
+   */
   @Provides
   static Repository provideRepository() {
     try {
-      final var builder = new FileRepositoryBuilder();
-      return builder.setGitDir(new File("./.git")) // TODO: shall be changeable
-        .readEnvironment()
-        .findGitDir()
-        .build();
+      // TODO: shall be changeable
+      return FileRepositoryBuilder.create(new File("./.git"));
     } catch (final IOException ex) {
       throw new RuntimeException("Unable to open repository");
     }
