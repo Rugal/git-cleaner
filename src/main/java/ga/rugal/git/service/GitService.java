@@ -1,20 +1,24 @@
 package ga.rugal.git.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
 import ga.rugal.git.model.GitBlob;
 import ga.rugal.git.model.GitCommit;
+import ga.rugal.git.model.GitPackIndexEntry;
 import ga.rugal.git.model.GitRef;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -45,13 +49,15 @@ public class GitService {
    * @return All problematic refs
    * @throws IOException unable to read from file system
    */
-  public List<GitRef> filter(final int sizeInByte) throws IOException {
+  public Set<GitRef> filter(final int sizeInByte) throws IOException {
     return this.repository.getRefDatabase()
       .getRefs().stream()
-      .map(m -> this.wrapTraverseRef(m.getLeaf(), sizeInByte))
+      .map(Ref::getLeaf)
+      .distinct()
+      .map(m -> this.wrapTraverseRef(m, sizeInByte))
       .filter(Optional::isPresent)
       .map(Optional::get)
-      .collect(Collectors.toList());
+      .collect(Collectors.toSet());
   }
 
   private Optional<GitRef> wrapTraverseRef(final Ref ref, final int sizeInByte) {
@@ -69,17 +75,23 @@ public class GitService {
     walk.markStart(walk.parseCommit(ref.getObjectId()));
     LOG.debug("Start traverse ref [{}]", ref.getName());
 
-    final var set = StreamSupport.stream(walk.spliterator(), true)
+    final var list = StreamSupport.stream(walk.spliterator(), true)
       .map(commit -> this.wrapTraverseCommit(commit, sizeInByte))
       .filter(Optional::isPresent)
       .map(Optional::get)
-      .collect(Collectors.toSet());
-    return new GitRef(ref.getName(), set);
+      .collect(Collectors.toList());
+    for (int i = 0; i < list.size(); ++i) {
+      for (int j = i + 1; j < list.size(); ++j) {
+        list.get(i).deduplicate(list.get(j));
+      }
+    }
+    return new GitRef(ref.getName(), list);
   }
 
   private Optional<GitCommit> wrapTraverseCommit(final RevCommit commit, final int sizeInByte) {
     try {
-      return this.traverseCommit(commit, sizeInByte);
+      final var c = this.traverseCommit(commit, sizeInByte);
+      return c;
     } catch (final IOException ex) {
       return Optional.empty();
     }
@@ -145,5 +157,22 @@ public class GitService {
                                loader.getSize())
                  : null;
     return Optional.ofNullable(file);
+  }
+
+  public void test() throws IOException {
+    final var file = new File(
+      ".git/objects/pack/pack-c67ad3cb7fe7be5e8242a7a6a83a837c9dfcc24c.idx");
+    final var packIndex = PackIndex.open(file);
+    final var list = StreamSupport.stream(packIndex.spliterator(), true)
+      .map(m -> new GitPackIndexEntry(m.name(), m.getOffset()))
+      .sorted((a, b) -> (int) (a.getOffset() - b.getOffset()))
+      .collect(Collectors.toList());
+
+    for (int i = 0; i < list.size() - 1; ++i) {
+      list.get(i).setSize(list.get(i + 1).getOffset() - list.get(i).getOffset());
+    }
+    final var last = list.get(list.size() - 1);
+    // TODO: need to read pack rather than pack index
+    last.setSize(file.length() - last.getOffset());
   }
 }

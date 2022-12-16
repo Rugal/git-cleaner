@@ -19,6 +19,7 @@ public class GitCommit {
   /**
    * SHA-1 commit id.
    */
+  @EqualsAndHashCode.Include
   String id;
 
   /**
@@ -26,4 +27,14 @@ public class GitCommit {
    * Need to remove duplication. The earlier commit that introduce the large file win.
    */
   Set<GitBlob> files;
+
+  /**
+   * Remove duplicated blob from current object.
+   *
+   * @param old this must be older commit, that is created earlier than current one
+   * @return {@code true} if this set changed as a result of the call
+   */
+  public boolean deduplicate(final GitCommit old) {
+    return this.files.removeAll(old.files);
+  }
 }
