@@ -8,14 +8,21 @@
     <version>1.15.0</version>
   </parent>
 
-  <artifactId>git</artifactId>
+  <artifactId>git-cleaner</artifactId>
   <version>1.0.0-SNAPSHOT</version>
 
   <name>GIT cleaner</name>
-  <description>Json Web Signature library for project Torrency</description>
-  <url>https://github.com/torrency/jws</url>
+  <description>Git command to check and clean large file</description>
+  <url>https://github.com/Rugal/git-cleaner.git</url>
 
+  <scm>
+    <connection>scm:git:ssh://git@github.com:Rugal/git-cleaner.git</connection>
+    <developerConnection>${project.scm.connection}</developerConnection>
+    <url>${project.url}</url>
+    <tag>HEAD</tag>
+  </scm>
   <properties>
+    <java.version>17</java.version>
     <!-- test switch -->
     <skip.surefire.tests>false</skip.surefire.tests>
     <skip.failsafe.tests>true</skip.failsafe.tests>
@@ -26,6 +33,7 @@
     <!--
       plugin
     -->
+    <jacoco.plugin.version>0.8.8</jacoco.plugin.version>
   </properties>
 
   <dependencies>
@@ -51,6 +59,7 @@
     <dependency>
       <groupId>com.google.dagger</groupId>
       <artifactId>dagger</artifactId>
+      <scope>compile</scope>
     </dependency>
     <!-- git -->
     <dependency>

@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Pack index entry.
@@ -13,14 +14,24 @@ import lombok.Setter;
  */
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
-@SuppressFBWarnings({"EI_EXPOSE_REP", "EI_EXPOSE_REP2"})
 @RequiredArgsConstructor
+@SuppressFBWarnings({"EI_EXPOSE_REP", "EI_EXPOSE_REP2"})
+@ToString
 public class GitPackIndexEntry {
 
+  /**
+   * Blob id.
+   */
   private final String id;
 
+  /**
+   * Byte offset notated in pack index file.
+   */
   private final long offset;
 
+  /**
+   * File size after compression.
+   */
   @Setter
   private long size;
 }

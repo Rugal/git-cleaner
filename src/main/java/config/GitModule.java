@@ -3,6 +3,13 @@ package config;
 import java.io.File;
 import java.io.IOException;
 
+import javax.inject.Named;
+
+import ga.rugal.git.dao.FileFilter;
+import ga.rugal.git.dao.impl.CompressedFileFilter;
+import ga.rugal.git.dao.impl.UncompressedFileFilter;
+
+import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 import org.eclipse.jgit.lib.Repository;
@@ -26,7 +33,7 @@ public interface GitModule {
   static Repository provideRepository() {
     try {
       // TODO: shall be changeable
-      return FileRepositoryBuilder.create(new File("./.git"));
+      return FileRepositoryBuilder.create(new File(".git"));
     } catch (final IOException ex) {
       throw new RuntimeException("Unable to open repository");
     }
