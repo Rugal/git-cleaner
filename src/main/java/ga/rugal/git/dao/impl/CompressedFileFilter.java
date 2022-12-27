@@ -42,6 +42,7 @@ public class CompressedFileFilter implements FileFilter {
   @Inject
   public CompressedFileFilter(final Repository repository) {
     this.repository = repository;
+    this.repository.getDirectory();
   }
 
   /**
@@ -62,13 +63,15 @@ public class CompressedFileFilter implements FileFilter {
   }
 
   private String getPackIndexHash() throws IOException {
-    final var packFolder = new File(".git/objects/pack");
+    final var packFolder = new File(this.repository.getDirectory(), "objects/pack");
     if (!packFolder.exists() || !packFolder.isDirectory()) {
-      throw new FileNotFoundException("Pack folder not found with [.git/objects/pack]");
+      throw new FileNotFoundException(String.format("Pack folder not found with [%s]",
+                                                    packFolder.getAbsolutePath()));
     }
     final var files = packFolder.listFiles((File dir, String name) -> name.endsWith("idx"));
     if (null == files) {
-      throw new FileNotFoundException("Pack index file not found in [.git/objects/pack]");
+      throw new FileNotFoundException(String.format("Pack index file not found in [%s]",
+                                                    packFolder.getAbsolutePath()));
     }
     // pack-e0a9004716c7bd3e7b0e6dea68dad4d74b8a15c4.idx
     final var indexFile = files[0].getName();
@@ -90,7 +93,8 @@ public class CompressedFileFilter implements FileFilter {
    */
   private List<GitPackIndexEntry> findLargeFile(final String hash, final int sizeInByte)
     throws IOException {
-    final var index = new File(String.format(".git/objects/pack/pack-%s.idx", hash));
+    final var index = new File(this.repository.getDirectory(),
+      String.format("objects/pack/pack-%s.idx", hash));
     final var packIndex = PackIndex.open(index);
     final var list = StreamSupport.stream(packIndex.spliterator(), false)
       .map(m -> new GitPackIndexEntry(m.name(), m.getOffset()))
@@ -101,7 +105,8 @@ public class CompressedFileFilter implements FileFilter {
       list.get(i).setSize(list.get(i + 1).getOffset() - list.get(i).getOffset());
     }
     final var last = list.get(list.size() - 1);
-    final var pack = new File(String.format(".git/objects/pack/pack-%s.pack", hash));
+    final var pack = new File(this.repository.getDirectory(),
+      String.format("objects/pack/pack-%s.pack", hash));
     last.setSize(pack.length() - last.getOffset());
 
     return list.stream()

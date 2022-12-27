@@ -5,6 +5,8 @@ import java.io.IOException;
 
 import dagger.Module;
 import dagger.Provides;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
@@ -13,8 +15,12 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
  *
  * @author Rugal Bernstein
  */
+@AllArgsConstructor
 @Module
-public interface GitModule {
+@NoArgsConstructor
+public class GitModule {
+
+  private String gitFolder = ".git";
 
   /**
    * Provide Git repository object.
@@ -23,10 +29,9 @@ public interface GitModule {
    * @throws RuntimeException Unable to read from file system
    */
   @Provides
-  static Repository provideRepository() {
+  public Repository provideRepository() {
     try {
-      // TODO: shall be changeable
-      return FileRepositoryBuilder.create(new File(".git"));
+      return FileRepositoryBuilder.create(new File(this.gitFolder));
     } catch (final IOException ex) {
       throw new RuntimeException("Unable to open repository");
     }
