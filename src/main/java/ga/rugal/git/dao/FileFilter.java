@@ -17,7 +17,7 @@ public interface FileFilter {
    *
    * @param sizeInByte the size to filter with
    * @return list of matching problematic files
-   * @throws java.io.IOException
+   * @throws IOException unable to read from repository
    */
   Collection<ProblematicFile> filter(int sizeInByte) throws IOException;
 }

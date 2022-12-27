@@ -11,7 +11,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
 import javax.inject.Inject;
 
 import ga.rugal.git.dao.FileFilter;
@@ -53,11 +52,12 @@ public class CompressedFileFilter implements FileFilter {
    * @throws IOException unable to read repository
    */
   @Override
-  public Collection<ProblematicFile> filter(int sizeInByte) throws IOException {
+  public Collection<ProblematicFile> filter(final int sizeInByte) throws IOException {
     final var pathMap = this.getPathMap();
     final var files = this.findLargeFile(this.getPackIndexHash(), sizeInByte);
     return files.parallelStream()
       .map(a -> new ProblematicFile(a.getId(), pathMap.get(a.getId()), a.getSize()))
+      .filter(a -> Objects.nonNull(a.path()))
       .collect(Collectors.toList());
   }
 
@@ -67,7 +67,7 @@ public class CompressedFileFilter implements FileFilter {
       throw new FileNotFoundException("Pack folder not found with [.git/objects/pack]");
     }
     final var files = packFolder.listFiles((File dir, String name) -> name.endsWith("idx"));
-    if (files.length == 0) {
+    if (null == files) {
       throw new FileNotFoundException("Pack index file not found in [.git/objects/pack]");
     }
     // pack-e0a9004716c7bd3e7b0e6dea68dad4d74b8a15c4.idx
@@ -104,9 +104,6 @@ public class CompressedFileFilter implements FileFilter {
     final var pack = new File(String.format(".git/objects/pack/pack-%s.pack", hash));
     last.setSize(pack.length() - last.getOffset());
 
-//    list.stream()
-//      .forEach(a -> LOG.info(a.toString()));
-
     return list.stream()
       .filter(a -> a.getSize() >= sizeInByte)
       .collect(Collectors.toList());
@@ -130,7 +127,7 @@ public class CompressedFileFilter implements FileFilter {
       .collect(Collectors.toMap(
         Map.Entry::getKey,
         Map.Entry::getValue,
-        (a, b) -> Objects.nonNull(a) ? a : b)
+        (String a, String b) -> Objects.nonNull(a) ? a : b)
       );
   }
 
@@ -143,7 +140,7 @@ public class CompressedFileFilter implements FileFilter {
   }
 
   private Map<String, String> traverseRef(final Ref ref) throws IOException {
-    try ( var walk = new RevWalk(this.repository)) {
+    try (var walk = new RevWalk(this.repository)) {
       walk.markStart(walk.parseCommit(ref.getObjectId()));
       LOG.debug("Start traverse ref [{}]", ref.getName());
 
@@ -182,7 +179,7 @@ public class CompressedFileFilter implements FileFilter {
   private HashMap<String, String> traverseCommit(final RevCommit commit)
     throws IOException {
 
-    try ( var walk = new TreeWalk(this.repository)) {
+    try (var walk = new TreeWalk(this.repository)) {
       walk.reset(commit.getTree().getId());
       walk.setRecursive(true); // recurse into entire tree
       LOG.trace("Start traverse the tree of commit [{}]", commit.getName());
@@ -192,7 +189,6 @@ public class CompressedFileFilter implements FileFilter {
         if (!walk.isSubtree() // will recurse into them anyway
             // ignore symbolic link
             && walk.getFileMode(0).equals(FileMode.REGULAR_FILE)) {
-//          LOG.trace("id [{}] -> path [{}]", walk.getObjectId(0).getName(), walk.getPathString());
           result.put(walk.getObjectId(0).getName(), walk.getPathString());
         }
       }

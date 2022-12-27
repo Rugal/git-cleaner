@@ -3,13 +3,6 @@ package config;
 import java.io.File;
 import java.io.IOException;
 
-import javax.inject.Named;
-
-import ga.rugal.git.dao.FileFilter;
-import ga.rugal.git.dao.impl.CompressedFileFilter;
-import ga.rugal.git.dao.impl.UncompressedFileFilter;
-
-import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 import org.eclipse.jgit.lib.Repository;

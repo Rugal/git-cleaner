@@ -19,9 +19,9 @@ public class CompressedFileFilterTest {
   @Test
   @SneakyThrows
   public void filter() {
-    final var refs = this.application.gitService().findLargeFile(1000, true);
+    final var files = this.application.gitService().findLargeFile(2000, true);
 
-    refs.stream()
+    files.stream()
       .forEach(System.out::println);
   }
 }

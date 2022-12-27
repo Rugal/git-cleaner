@@ -2,7 +2,6 @@ package ga.rugal.git.service;
 
 import java.io.IOException;
 import java.util.Collection;
-
 import javax.inject.Inject;
 
 import ga.rugal.git.dao.impl.CompressedFileFilter;
@@ -29,7 +28,8 @@ public class GitService {
   UncompressedFileFilter uncompressive;
 
   @Inject
-  public GitService(CompressedFileFilter compressive, UncompressedFileFilter uncompressive) {
+  public GitService(final CompressedFileFilter compressive,
+                    final UncompressedFileFilter uncompressive) {
     this.compressive = compressive;
     this.uncompressive = uncompressive;
   }
