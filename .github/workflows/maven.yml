@@ -23,6 +23,7 @@ jobs:
         uses: actions/setup-java@v3.9.0
         with:
           java-version: 17
+          distribution: jdk
 
       - name: Restore Build Cache
         uses: actions/cache@v3.2.2
