@@ -8,11 +8,12 @@
     <version>1.15.0</version>
   </parent>
 
-  <artifactId>git-cleaner</artifactId>
+  <artifactId>git-cleaner-parent</artifactId>
   <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
-  <name>GIT cleaner library</name>
-  <description>A Java library that could check and clean large file</description>
+  <name>GIT cleaner parent</name>
+  <description>Tool that could check and clean large file</description>
   <url>https://github.com/Rugal/git-cleaner.git</url>
 
   <scm>
@@ -37,6 +38,11 @@
     <pmd.plugin.version>3.19.0</pmd.plugin.version>
     <jacoco.plugin.version>0.8.8</jacoco.plugin.version>
   </properties>
+
+  <modules>
+    <module>library</module>
+    <!--<module>maven</module>-->
+  </modules>
 
   <dependencies>
     <dependency>
@@ -63,13 +69,6 @@
       <artifactId>dagger</artifactId>
       <scope>compile</scope>
     </dependency>
-    <!-- git -->
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit</artifactId>
-      <version>6.4.0.202211300538-r</version>
-    </dependency>
-
     <!-- Auto Append -->
   </dependencies>
 
