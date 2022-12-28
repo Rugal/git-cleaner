@@ -68,7 +68,7 @@ public class CompressiveFileFilter implements FileFilter {
                                                     packFolder.getAbsolutePath()));
     }
     final var files = packFolder.listFiles((File dir, String name) -> name.endsWith("idx"));
-    if (null == files) {
+    if (null == files || files.length == 0) {
       throw new FileNotFoundException(String.format("Pack index file not found in [%s]",
                                                     packFolder.getAbsolutePath()));
     }

@@ -4,11 +4,11 @@ import config.DaggerGitCleaner;
 import config.GitCleaner;
 
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-@Slf4j
+@Disabled
 public class FlatFileFilterIntegrationTest {
 
   private GitCleaner cleaner;
