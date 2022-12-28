@@ -2,7 +2,7 @@ package config;
 
 import javax.inject.Singleton;
 
-import ga.rugal.git.service.GitService;
+import ga.rugal.gitcleaner.service.GitService;
 
 import dagger.Component;
 
