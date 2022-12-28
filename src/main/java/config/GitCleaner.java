@@ -14,10 +14,10 @@ import dagger.Component;
 @Singleton
 @Component(
   modules = {
-    GitModule.class
+    RepositoryModule.class
   }
 )
-public interface Application {
+public interface GitCleaner {
 
   GitService gitService();
 }

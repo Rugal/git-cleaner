@@ -11,7 +11,7 @@
     <Bug pattern="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" />
   </Match>
   <Match>
-    <Class name="config.DaggerApplication" />
+    <Class name="config.DaggerGitCleaner" />
     <Bug pattern="URF_UNREAD_FIELD" />
   </Match>
 </FindBugsFilter>

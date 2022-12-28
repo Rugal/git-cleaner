@@ -35,14 +35,13 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  */
 @Slf4j
 @SuppressFBWarnings({"EI_EXPOSE_REP", "EI_EXPOSE_REP2"})
-public class CompressedFileFilter implements FileFilter {
+public class CompressiveFileFilter implements FileFilter {
 
   private final Repository repository;
 
   @Inject
-  public CompressedFileFilter(final Repository repository) {
+  public CompressiveFileFilter(final Repository repository) {
     this.repository = repository;
-    this.repository.getDirectory();
   }
 
   /**

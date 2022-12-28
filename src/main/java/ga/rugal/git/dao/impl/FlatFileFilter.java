@@ -31,12 +31,12 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  */
 @Slf4j
 @SuppressFBWarnings({"EI_EXPOSE_REP", "EI_EXPOSE_REP2"})
-public class UncompressedFileFilter implements FileFilter {
+public class FlatFileFilter implements FileFilter {
 
   private final Repository repository;
 
   @Inject
-  public UncompressedFileFilter(final Repository repository) {
+  public FlatFileFilter(final Repository repository) {
     this.repository = repository;
   }
 

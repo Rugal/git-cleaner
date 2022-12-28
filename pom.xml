@@ -25,7 +25,7 @@
     <java.version>17</java.version>
     <!-- test switch -->
     <skip.surefire.tests>false</skip.surefire.tests>
-    <skip.failsafe.tests>true</skip.failsafe.tests>
+    <skip.failsafe.tests>false</skip.failsafe.tests>
     <jacoco.skip.coverage.check>true</jacoco.skip.coverage.check>
     <!--
       dependency

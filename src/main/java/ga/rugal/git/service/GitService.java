@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.Collection;
 import javax.inject.Inject;
 
-import ga.rugal.git.dao.impl.CompressedFileFilter;
-import ga.rugal.git.dao.impl.UncompressedFileFilter;
+import ga.rugal.git.dao.impl.CompressiveFileFilter;
+import ga.rugal.git.dao.impl.FlatFileFilter;
 import ga.rugal.git.dto.ProblematicFile;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -23,15 +23,15 @@ import lombok.extern.slf4j.Slf4j;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class GitService {
 
-  CompressedFileFilter compressive;
+  CompressiveFileFilter compressive;
 
-  UncompressedFileFilter uncompressive;
+  FlatFileFilter flat;
 
   @Inject
-  public GitService(final CompressedFileFilter compressive,
-                    final UncompressedFileFilter uncompressive) {
+  public GitService(final CompressiveFileFilter compressive,
+                    final FlatFileFilter flat) {
     this.compressive = compressive;
-    this.uncompressive = uncompressive;
+    this.flat = flat;
   }
 
   /**
@@ -47,6 +47,6 @@ public class GitService {
     throws IOException {
     return isCompress
            ? this.compressive.filter(sizeInByte)
-           : this.uncompressive.filter(sizeInByte);
+           : this.flat.filter(sizeInByte);
   }
 }

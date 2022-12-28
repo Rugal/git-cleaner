@@ -18,7 +18,7 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 @AllArgsConstructor
 @Module
 @NoArgsConstructor
-public class GitModule {
+public class RepositoryModule {
 
   private String gitFolder = ".git";
 

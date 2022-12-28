@@ -1,19 +1,19 @@
 package ga.rugal.git.dao.impl;
 
-import config.Application;
-import config.DaggerApplication;
+import config.DaggerGitCleaner;
+import config.GitCleaner;
 
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class CompressedFileFilterTest {
+public class CompressiveFileFilterIntegrationTest {
 
-  private Application application;
+  private GitCleaner application;
 
   @BeforeEach
   public void setUp() {
-    this.application = DaggerApplication.create();
+    this.application = DaggerGitCleaner.create();
   }
 
   @Test
