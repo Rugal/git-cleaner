@@ -11,17 +11,17 @@ import org.junit.jupiter.api.Test;
 @Slf4j
 public class FlatFileFilterIntegrationTest {
 
-  private GitCleaner application;
+  private GitCleaner cleaner;
 
   @BeforeEach
   public void setUp() {
-    this.application = DaggerGitCleaner.create();
+    this.cleaner = DaggerGitCleaner.create();
   }
 
   @Test
   @SneakyThrows
   public void filter() {
-    final var refs = this.application.gitService().findLargeFile(10000, false);
+    final var refs = this.cleaner.gitService().findLargeFile(10000, false);
 
     refs.stream()
       .forEach(System.out::println);

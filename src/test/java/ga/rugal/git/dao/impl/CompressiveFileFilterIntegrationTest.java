@@ -9,17 +9,17 @@ import org.junit.jupiter.api.Test;
 
 public class CompressiveFileFilterIntegrationTest {
 
-  private GitCleaner application;
+  private GitCleaner cleaner;
 
   @BeforeEach
   public void setUp() {
-    this.application = DaggerGitCleaner.create();
+    this.cleaner = DaggerGitCleaner.create();
   }
 
   @Test
   @SneakyThrows
   public void filter() {
-    final var files = this.application.gitService().findLargeFile(2000, true);
+    final var files = this.cleaner.gitService().findLargeFile(2000, true);
 
     files.stream()
       .forEach(System.out::println);

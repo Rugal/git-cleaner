@@ -12,7 +12,7 @@
   <version>1.0.0-SNAPSHOT</version>
 
   <name>GIT cleaner library</name>
-  <description>Library that could check and clean large file</description>
+  <description>A Java library that could check and clean large file</description>
   <url>https://github.com/Rugal/git-cleaner.git</url>
 
   <scm>

@@ -49,4 +49,17 @@ public class GitService {
            ? this.compressive.filter(sizeInByte)
            : this.flat.filter(sizeInByte);
   }
+
+  /**
+   * Find large file in repository without compression, of which size is larger than given
+   * threshold.
+   *
+   * @param sizeInByte filter size threshold
+   * @return some large file that match requirement
+   * @throws IOException unable to read from repository
+   */
+  public Collection<ProblematicFile> findLargeFile(final int sizeInByte)
+    throws IOException {
+    return this.findLargeFile(sizeInByte, false);
+  }
 }
