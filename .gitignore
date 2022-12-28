@@ -18,3 +18,4 @@ nb-configuration.xml
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 /library/target/
+/maven-plugin/target/

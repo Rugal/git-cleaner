@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <include resource="org/springframework/boot/logging/logback/base.xml"/>
+  <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+
+  <root level="INFO">
+    <appender-ref ref="CONSOLE" />
+  </root>
+  <logger name="com.alipay" additivity="false" level="TRACE">
+    <appender-ref ref="CONSOLE"/>
+  </logger>
+  <logger name="config" additivity="false" level="TRACE">
+    <appender-ref ref="CONSOLE"/>
+  </logger>
+  <logger name="org.springframework" additivity="false" level="ERROR">
+    <appender-ref ref="CONSOLE" />
+  </logger>
+  <logger name="io.swagger.models.parameters" additivity="false" level="ERROR">
+    <appender-ref ref="CONSOLE" />
+  </logger>
+  <logger name="org.hibernate" additivity="false" level="ERROR">
+    <appender-ref ref="CONSOLE" />
+  </logger>
+  <logger name="org.apache.tomcat" additivity="false" level="INFO">
+    <appender-ref ref="CONSOLE" />
+  </logger>
+  <logger name="org.springframework.messaging" additivity="false" level="DEBUG">
+    <appender-ref ref="CONSOLE" />
+  </logger>
+  <logger name="org.springframework.web" additivity="false" level="ERROR">
+    <appender-ref ref="CONSOLE" />
+  </logger>
+
+  <springProfile name="local | ci | test">
+  </springProfile>
+
+  <springProfile name="development | staging">
+    <logger name="com.alipay" additivity="false" level="DEBUG">
+      <appender-ref ref="CONSOLE"/>
+    </logger>
+    <logger name="org.springframework.security" additivity="false" level="INFO">
+      <appender-ref ref="CONSOLE" />
+    </logger>
+  </springProfile>
+
+  <springProfile name="production">
+    <logger name="com.alipay" additivity="false" level="ERROR">
+      <appender-ref ref="CONSOLE" />
+    </logger>
+  </springProfile>
+</configuration>

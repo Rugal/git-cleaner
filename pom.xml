@@ -41,7 +41,7 @@
 
   <modules>
     <module>library</module>
-    <!--<module>maven</module>-->
+    <module>maven-plugin</module>
   </modules>
 
   <dependencies>
@@ -74,6 +74,9 @@
 
   <build>
     <plugins>
+      <!--
+        initialization
+      -->
       <!-- git commit id -->
       <plugin>
         <groupId>pl.project13.maven</groupId>
@@ -84,6 +87,9 @@
           </gitDescribe>
         </configuration>
       </plugin>
+      <!--
+        static analysis
+      -->
       <!-- checkstyle -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -102,21 +108,9 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
       </plugin>
-      <!-- Unit Test -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-      </plugin>
-      <!-- Integration Test -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-      </plugin>
-      <!-- Test Coverage -->
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-      </plugin>
+      <!--
+        compilation
+      -->
       <!-- compiler -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -136,6 +130,42 @@
           </annotationProcessorPaths>
           <showDeprecation>true</showDeprecation>
         </configuration>
+      </plugin>
+      <!--
+        test
+      -->
+      <!-- Unit Test -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+      </plugin>
+      <!-- Integration Test -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+      </plugin>
+      <!-- Test Coverage -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
+      <!--
+        packaging
+      -->
+      <!-- source -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+      </plugin>
+      <!-- jar -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+      </plugin>
+      <!-- javadoc -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
