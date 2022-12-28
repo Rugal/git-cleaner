@@ -72,12 +72,6 @@
       <!--
         packaging
       -->
-      <!-- plugin management -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-plugin-plugin</artifactId>
-        <version>3.7.0</version>
-      </plugin>
       <!-- source -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -102,6 +96,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
+        <version>3.7.0</version>
         <configuration>
           <!--TODO: change this name-->
           <helpPackageName>com.alipay.cloudide.maven.linglong.mojo</helpPackageName>

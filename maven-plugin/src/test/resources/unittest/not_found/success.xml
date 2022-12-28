@@ -8,17 +8,13 @@
   <name>Maven Plugin Test</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
   </properties>
   <build>
     <plugins>
       <plugin>
-        <artifactId>linglong-maven-plugin</artifactId>
+        <artifactId>git-cleaner-maven-plugin</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <configuration>
-          <base>dayuarkbase</base>
-          <file>/Users/rugal/Workspace/Ant/dayulightapp/target/dayulightapp-1.0.0-20220929165900-ark-biz.jar</file>
         </configuration>
       </plugin>
     </plugins>
