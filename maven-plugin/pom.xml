@@ -19,6 +19,11 @@
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>ga.rugal</groupId>
+      <artifactId>git-cleaner-library</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
     <!--
       maven development plugin
     -->

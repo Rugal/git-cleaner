@@ -1,5 +1,7 @@
 package ga.rugal.gitcleaner.maven.mojo;
 
+import config.DaggerGitCleaner;
+
 import ga.rugal.gitcleaner.maven.entity.Configuration;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,8 @@ public class RugalMojo extends BaseMojo {
    */
   @Override
   public void execute(final Configuration c) throws MojoExecutionException, MojoFailureException {
+    final var cleaner = DaggerGitCleaner.create();
+    cleaner.getClass();
     LOG.info("RUgal");
   }
 }
