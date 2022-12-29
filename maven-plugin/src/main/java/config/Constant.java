@@ -9,15 +9,15 @@ public interface Constant {
 
   String ENCODING = "UTF-8";
 
-  String PREFIX = "linglong";
+  String PREFIX = "gitcleaner";
 
   String FAIL_ON_ERROR = PREFIX + ".failOnError";
 
   String SKIP = PREFIX + ".skip";
 
-  String BASE = PREFIX + ".base";
+  String IS_COMPRESSIVE = PREFIX + ".isCompressive";
 
-  String BRANCH = PREFIX + ".branch";
+  String SIZE_TO_FILTER = PREFIX + ".sizeToFilter";
 
-  String FILE = PREFIX + ".file";
+  String GIT_FOLDER = PREFIX + ".gitFolder";
 }

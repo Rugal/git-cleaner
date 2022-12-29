@@ -2,6 +2,7 @@ package ga.rugal.gitcleaner.maven.mojo;
 
 import java.io.File;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.apache.maven.plugin.testing.MojoRule;
@@ -9,13 +10,14 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.runners.Parameterized.Parameter;
 
+@Slf4j
 public abstract class AbstractMojoTestBase extends AbstractMojoTestCase {
 
   public static final String SUCCESS = "success";
 
   public static final String FAIL = "fail";
 
-  private static final String TEMPLATE = "src/test/resources/unittest/%s/%s.xml";
+  private static final String TEMPLATE = getBasedir() + "src/test/resources/unittest/%s/%s.xml";
 
   @Parameter
   public String test;
@@ -43,9 +45,9 @@ public abstract class AbstractMojoTestBase extends AbstractMojoTestCase {
                                  final String result) throws Exception {
     final File pom = new File(String.format(TEMPLATE, test, result));
     Assert.assertTrue(pom.exists());
-
     final AbstractMojo mojo = (AbstractMojo) this.rule.lookupMojo(mojoName, pom);
     Assert.assertNotNull(mojo);
+    LOG.info("Get mojo");
     return mojo;
   }
 }

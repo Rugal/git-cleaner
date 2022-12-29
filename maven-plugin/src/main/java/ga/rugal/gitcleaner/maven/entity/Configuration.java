@@ -33,6 +33,24 @@ public class Configuration {
 
   private final MavenProject project;
 
+  /**
+   * To search compressive file from pack file. Also configurable through Maven or System property:
+   * {@link Constant#IS_COMPRESSIVE}
+   */
+  private final boolean isCompressive;
+
+  /**
+   * To search file that is >= this value. The unit is byte. <BR>
+   * Also configurable through Maven or System property: {@link Constant#SIZE_TO_FILTER}
+   */
+  private final int sizeToFilter;
+
+  /**
+   * The Git folder that store git object and everything.<BR>
+   * Also configurable through Maven or System property: {@link Constant#GIT_FOLDER}
+   */
+  private final String gitFolder;
+
   @Setter
   private Log log;
 }

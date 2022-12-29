@@ -1,6 +1,6 @@
 package ga.rugal.gitcleaner.maven.mojo;
 
-import config.DaggerGitCleaner;
+import java.io.IOException;
 
 import ga.rugal.gitcleaner.maven.entity.Configuration;
 
@@ -15,10 +15,10 @@ import org.apache.maven.plugins.annotations.Mojo;
  * @author Rugal
  */
 @Slf4j
-@Mojo(name = RugalMojo.GOAL, requiresProject = true)
-public class RugalMojo extends BaseMojo {
+@Mojo(name = FindMojo.GOAL, requiresProject = true)
+public class FindMojo extends BaseMojo {
 
-  public static final String GOAL = "rugal";
+  public static final String GOAL = "find";
 
   /**
    * Need projectId + aciStateFile + branch + ymlGlobalPath.
@@ -31,8 +31,12 @@ public class RugalMojo extends BaseMojo {
    */
   @Override
   public void execute(final Configuration c) throws MojoExecutionException, MojoFailureException {
-    final var cleaner = DaggerGitCleaner.create();
-    cleaner.getClass();
-    LOG.info("RUgal");
+    try {
+      this.cleaner.gitService().findLargeFile(c.getSizeToFilter(), c.isCompressive());
+    } catch (final IOException ex) {
+      throw new MojoFailureException(String.format(
+        "Unable to read git repository [%s]",
+        c.getGitFolder()));
+    }
   }
 }

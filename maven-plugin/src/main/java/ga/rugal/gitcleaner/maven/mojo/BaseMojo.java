@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import config.Constant;
+import config.GitCleaner;
 
 import ga.rugal.gitcleaner.maven.entity.Configuration;
 
@@ -35,8 +36,31 @@ public abstract class BaseMojo extends AbstractMojo {
   @Parameter
   private boolean failOnError = true;
 
+  /**
+   * The Git folder that store git object and everything.<BR>
+   * Also configurable through Maven or System property: {@link Constant#GIT_FOLDER}
+   */
+  @Parameter
+  private String gitFolder = ".git";
+
+  /**
+   * To search compressive file from pack file. Also configurable through Maven or System property:
+   * {@link Constant#IS_COMPRESSIVE}
+   */
+  @Parameter
+  private boolean isCompressive = false;
+
+  /**
+   * To search file that is >= this value. The unit is in byte. <BR>
+   * Also configurable through Maven or System property: {@link Constant#SIZE_TO_FILTER}
+   */
+  @Parameter
+  private int sizeToFilter = 1024;
+
   @Parameter(defaultValue = "${project}", required = true, readonly = true)
   protected MavenProject project;
+
+  protected GitCleaner cleaner;
 
   /**
    * Read single value from maven system property.
@@ -57,6 +81,9 @@ public abstract class BaseMojo extends AbstractMojo {
     final Map<String, String> map = new HashMap<>();
     this.read(map, Constant.FAIL_ON_ERROR);
     this.read(map, Constant.SKIP);
+    this.read(map, Constant.IS_COMPRESSIVE);
+    this.read(map, Constant.SIZE_TO_FILTER);
+    this.read(map, Constant.GIT_FOLDER);
     return map;
   }
 
@@ -74,10 +101,19 @@ public abstract class BaseMojo extends AbstractMojo {
 
     // build final configuration
     return Configuration.builder()
-      .failOnError(Boolean.parseBoolean(map.getOrDefault(Constant.FAIL_ON_ERROR,
-                                                         Boolean.toString(this.failOnError))))
-      .skip(Boolean.parseBoolean(map.getOrDefault(Constant.SKIP,
-                                                  Boolean.toString(this.skip))))
+      .failOnError(
+        Boolean.parseBoolean(map.getOrDefault(Constant.FAIL_ON_ERROR,
+                                              Boolean.toString(this.failOnError))))
+      .skip(
+        Boolean.parseBoolean(map.getOrDefault(Constant.SKIP,
+                                              Boolean.toString(this.skip))))
+      .isCompressive(
+        Boolean.parseBoolean(map.getOrDefault(Constant.IS_COMPRESSIVE,
+                                              Boolean.toString(this.isCompressive))))
+      .sizeToFilter(
+        Integer.parseInt(map.getOrDefault(Constant.SIZE_TO_FILTER,
+                                          Integer.toString(this.sizeToFilter))))
+      .gitFolder(map.getOrDefault(Constant.GIT_FOLDER, this.gitFolder))
       .log(this.getLog())
       .project(this.project)
       .build();

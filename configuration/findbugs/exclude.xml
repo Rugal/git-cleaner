@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FindBugsFilter>
   <Match>
-    <Class name="~.*Dto" />
-  </Match>
-  <Match>
     <Class name="~.*_" />
   </Match>
   <Match>
-    <Class name="ga.rugal.raizekusu.core.entity.User" />
-    <Bug pattern="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" />
+    <Class name="ga.rugal.gitcleaner.maven.mojo.HelpMojo" />
+    <Bug pattern="UI_INHERITANCE_UNSAFE_GETRESOURCE" />
   </Match>
   <Match>
     <Class name="config.DaggerGitCleaner" />
     <Bug pattern="URF_UNREAD_FIELD" />
+  </Match>
+  <Match>
+    <Class name="ga.rugal.gitcleaner.maven.mojo.FindMojo" />
+    <Bug pattern="NP_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD" />
+  </Match>
+  <Match>
+    <Class name="ga.rugal.gitcleaner.maven.mojo.BaseMojo" />
+    <Bug pattern="UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD" />
   </Match>
 </FindBugsFilter>
