@@ -5,10 +5,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import config.Constant;
+import config.DaggerGitCleaner;
 import config.GitCleaner;
+import config.RepositoryModule;
 
+import ga.rugal.gitcleaner.exception.RepositoryNotFoundRuntimeException;
+import ga.rugal.gitcleaner.exception.RepositoryUnreadableRuntimeException;
 import ga.rugal.gitcleaner.maven.entity.Configuration;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -20,41 +25,55 @@ import org.apache.maven.project.MavenProject;
  *
  * @author Rugal
  */
+@Slf4j
 public abstract class BaseMojo extends AbstractMojo {
 
   /**
    * If this execution will skip.<BR>
    * Also configurable through Maven or System property {@link Constant#SKIP}
    */
-  @Parameter
+  @Parameter(name = Constant.SKIP, defaultValue = "false")
   private boolean skip = false;
 
   /**
-   * Fail the build if execution check not pass.<BR>
+   * Fail the build if execution is fine but there is neglectable failure.<BR>
    * Also configurable through Maven or System property: {@link Constant#FAIL_ON_ERROR}
    */
-  @Parameter
+  @Parameter(name = Constant.FAIL_ON_ERROR, defaultValue = "true")
   private boolean failOnError = true;
 
   /**
    * The Git folder that store git object and everything.<BR>
    * Also configurable through Maven or System property: {@link Constant#GIT_FOLDER}
    */
-  @Parameter
+  @Parameter(name = Constant.GIT_FOLDER, defaultValue = ".git")
   private String gitFolder = ".git";
 
   /**
    * To search compressive file from pack file. Also configurable through Maven or System property:
    * {@link Constant#IS_COMPRESSIVE}
    */
-  @Parameter
+  @Parameter(name = Constant.IS_COMPRESSIVE, defaultValue = "false")
   private boolean isCompressive = false;
 
   /**
    * To search file that is >= this value. The unit is in byte. <BR>
    * Also configurable through Maven or System property: {@link Constant#SIZE_TO_FILTER}
+   *
+   * <ul>
+   * <li>true <strong>(default)</strong> in this mode the compiler plugin determines whether any JAR
+   * files the current module depends on have changed in the current build run; or any source file
+   * was added, removed or changed since the last compilation. If this is the case, the compiler
+   * plugin recompiles all sources.</li>
+   * <li>false <strong>(not recommended)</strong> this only compiles source files which are newer
+   * than their corresponding class files, namely which have changed since the last compilation.
+   * This does not recompile other classes which use the changed class, potentially leaving them
+   * with references to methods that no longer exist, leading to errors at runtime.</li>
+   * </ul>
+   *
+   * @since 3.1
    */
-  @Parameter
+  @Parameter(name = Constant.SIZE_TO_FILTER, defaultValue = "1024")
   private int sizeToFilter = 1024;
 
   @Parameter(defaultValue = "${project}", required = true, readonly = true)
@@ -124,8 +143,22 @@ public abstract class BaseMojo extends AbstractMojo {
     final Configuration c;
     try {
       c = this.getConfiguration();
+
+      this.cleaner = DaggerGitCleaner.builder()
+        .repositoryModule(new RepositoryModule(c.getGitFolder()))
+        .build();
+      // deliberately invoke it so as to verify repository existence
+      this.cleaner.gitService();
+
       this.getLog().debug(c.toString());
+    } catch (final RepositoryNotFoundRuntimeException ex) {
+      throw new MojoExecutionException(String.format("Repository not found [%s]", ex.getGitDir()));
+    } catch (final RepositoryUnreadableRuntimeException ex) {
+      throw new MojoExecutionException(String.format(
+        "Repository found but unable to read configuration [{}]",
+        ex.getGitDir()));
     } catch (IOException | InterruptedException ex) {
+      LOG.error(ex.getMessage());
       throw new MojoExecutionException("Unable to initialize maven plugin configuration");
     }
 

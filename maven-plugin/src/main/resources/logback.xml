@@ -6,10 +6,11 @@
   <root level="INFO">
     <appender-ref ref="CONSOLE" />
   </root>
-  <logger name="com.alipay" additivity="false" level="TRACE">
+
+  <logger name="config" additivity="false" level="DEBUG">
     <appender-ref ref="CONSOLE"/>
   </logger>
-  <logger name="config" additivity="false" level="TRACE">
+  <logger name="ga.rugal" additivity="false" level="DEBUG">
     <appender-ref ref="CONSOLE"/>
   </logger>
   <logger name="org.springframework" additivity="false" level="ERROR">
@@ -35,17 +36,11 @@
   </springProfile>
 
   <springProfile name="development | staging">
-    <logger name="com.alipay" additivity="false" level="DEBUG">
-      <appender-ref ref="CONSOLE"/>
-    </logger>
     <logger name="org.springframework.security" additivity="false" level="INFO">
       <appender-ref ref="CONSOLE" />
     </logger>
   </springProfile>
 
   <springProfile name="production">
-    <logger name="com.alipay" additivity="false" level="ERROR">
-      <appender-ref ref="CONSOLE" />
-    </logger>
   </springProfile>
 </configuration>

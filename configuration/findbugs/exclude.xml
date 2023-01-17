@@ -12,11 +12,7 @@
     <Bug pattern="URF_UNREAD_FIELD" />
   </Match>
   <Match>
-    <Class name="ga.rugal.gitcleaner.maven.mojo.FindMojo" />
-    <Bug pattern="NP_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD" />
-  </Match>
-  <Match>
-    <Class name="ga.rugal.gitcleaner.maven.mojo.BaseMojo" />
-    <Bug pattern="UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD" />
+    <Class name="config.RepositoryModule" />
+    <Bug pattern="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" />
   </Match>
 </FindBugsFilter>

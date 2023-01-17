@@ -1,7 +1,5 @@
 package ga.rugal.gitcleaner.model;
 
-import ga.rugal.gitcleaner.model.GitBlob;
-
 import java.util.HashSet;
 
 import org.junit.jupiter.api.Assertions;

@@ -15,7 +15,7 @@
         <artifactId>git-cleaner-maven-plugin</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <configuration>
-          <gitFolder>test</gitFolder>
+          <gitFolder>not_exist</gitFolder>
         </configuration>
       </plugin>
     </plugins>

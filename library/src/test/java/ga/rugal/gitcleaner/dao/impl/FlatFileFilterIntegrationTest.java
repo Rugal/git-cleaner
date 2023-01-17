@@ -2,20 +2,23 @@ package ga.rugal.gitcleaner.dao.impl;
 
 import config.DaggerGitCleaner;
 import config.GitCleaner;
+import config.RepositoryModule;
 
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-@Disabled
+@Slf4j
 public class FlatFileFilterIntegrationTest {
 
   private GitCleaner cleaner;
 
   @BeforeEach
   public void setUp() {
-    this.cleaner = DaggerGitCleaner.create();
+    this.cleaner = DaggerGitCleaner.builder()
+      .repositoryModule(new RepositoryModule("../.git"))
+      .build();
   }
 
   @Test
@@ -24,6 +27,6 @@ public class FlatFileFilterIntegrationTest {
     final var refs = this.cleaner.gitService().findLargeFile(10000, false);
 
     refs.stream()
-      .forEach(System.out::println);
+      .forEach(f -> LOG.debug(f.toString()));
   }
 }

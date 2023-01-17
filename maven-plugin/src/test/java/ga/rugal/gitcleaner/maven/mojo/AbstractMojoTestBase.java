@@ -17,7 +17,7 @@ public abstract class AbstractMojoTestBase extends AbstractMojoTestCase {
 
   public static final String FAIL = "fail";
 
-  private static final String TEMPLATE = getBasedir() + "src/test/resources/unittest/%s/%s.xml";
+  private static final String TEMPLATE = getBasedir() + "/src/test/resources/unittest/%s/%s.xml";
 
   @Parameter
   public String test;
