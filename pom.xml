@@ -5,7 +5,7 @@
   <parent>
     <groupId>ga.rugal</groupId>
     <artifactId>parent</artifactId>
-    <version>1.15.0</version>
+    <version>1.17.0</version>
   </parent>
 
   <artifactId>git-cleaner-parent</artifactId>
@@ -31,13 +31,10 @@
     <!--
       dependency
     -->
-    <jgit.dependency.version>6.4.0.202211300538-r</jgit.dependency.version>
+    <jgit.dependency.version>6.8.0.202311291450-r</jgit.dependency.version>
     <!--
       plugin
     -->
-    <spotbugs.plugin.version>4.7.3.0</spotbugs.plugin.version>
-    <pmd.plugin.version>3.19.0</pmd.plugin.version>
-    <jacoco.plugin.version>0.8.8</jacoco.plugin.version>
   </properties>
 
   <modules>
