@@ -11,8 +11,8 @@
   <artifactId>git-cleaner-library</artifactId>
   <version>1.0.0-SNAPSHOT</version>
 
-  <name>GIT cleaner library</name>
-  <description>A Java library that could check and clean large file</description>
+  <name>GIT cleaner core library</name>
+  <description>A Java core library that could check and clean large file</description>
 
   <dependencies>
     <!-- git -->
