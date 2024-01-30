@@ -15,12 +15,10 @@ data class GitBlob(
    */
   val path: String,
   /**
-   * File size in file system.
+   * File size byte in file system.
    */
   val size: Long,
-
-
-  ) {
+) {
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (javaClass != other?.javaClass) return false

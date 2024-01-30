@@ -1,5 +1,6 @@
 package ga.rugal.gitcleaner.core.dao
 
+import java.io.IOException
 import ga.rugal.gitcleaner.core.model.GitBlob
 import org.eclipse.jgit.lib.ObjectId
 import org.eclipse.jgit.lib.Ref
@@ -7,7 +8,6 @@ import org.eclipse.jgit.lib.Repository
 import org.eclipse.jgit.revwalk.RevCommit
 import org.eclipse.jgit.revwalk.RevWalk
 import org.eclipse.jgit.treewalk.TreeWalk
-import java.io.IOException
 
 /**
  * File filter that traverses commit trees to find problematic files.
@@ -22,13 +22,13 @@ class FlatFileFilter(val repository: Repository) {
     walk.addTree(commit.tree)
     walk.isRecursive = true // set to false if you want to see directories
 
-    val set = HashSet<GitBlob>()
-    while (walk.next()) {
-      walk.getObjectId(0).also {
-        set.add(GitBlob(walk.pathString, it.name, getSize(it)))
+    HashSet<GitBlob>().also { set ->
+      while (walk.next()) {
+        walk.getObjectId(0).also {
+          set.add(GitBlob(walk.pathString, it.name, getSize(it)))
+        }
       }
     }
-    set
   }
 
   private fun getCommits(ref: Ref): HashSet<RevCommit> = RevWalk(repository).use {
@@ -37,14 +37,15 @@ class FlatFileFilter(val repository: Repository) {
   }
 
   @Throws(IOException::class)
-  fun filter(sizeInByte: Long) {
-    this.repository.refDatabase.refs
+  fun filter(sizeInByte: Long): List<GitBlob> {
+    return this.repository.refDatabase.refs
       .asSequence()
       .map { it.leaf }        // get all actual ref
       .distinctBy { it.name } // distinct by name
       .map { getCommits(it) } // get all commit of a ref
       .reduce { acc, revCommits -> acc.also { it.addAll(revCommits) } }
-      .map { }
-      .toList()
+      .map { getBlob(it) }
+      .reduce { acc, blobs -> acc.also { it.addAll(blobs) } }
+      .filter { it.size >= sizeInByte }
   }
 }
