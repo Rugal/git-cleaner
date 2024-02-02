@@ -4,13 +4,13 @@ import java.io.File
 import org.eclipse.jgit.api.Git
 import org.junit.jupiter.api.Test
 
-class FlatFileFilterTest {
+class FlatBlobFilterTest {
 
   @Test
   fun filter() {
     val r = Git.open(File("../.git")).repository
 
-    FlatFileFilter(r).filter(1024).forEach {
+    FlatBlobFilter(r).filter(10240).forEach {
       println("[${it.id}] [${it.path}] [${it.size}]")
     }
   }
