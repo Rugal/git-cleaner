@@ -21,7 +21,7 @@ import org.eclipse.jgit.treewalk.TreeWalk
   replaceWith = ReplaceWith("CompressedBlobFilter(repository)", imports = arrayOf("ga.rugal.gitcleaner.core.dao.CompressedBlobFilter")),
   level = DeprecationLevel.WARNING
 )
-class FlatBlobFilter(val repository: Repository) {
+class DirectFilter(val repository: Repository) {
   private val LOG = KotlinLogging.logger { }
 
   private val ObjectId.size: Long
@@ -51,16 +51,13 @@ class FlatBlobFilter(val repository: Repository) {
     }
 
   @Throws(IOException::class)
-  fun filter(sizeInByte: Long): List<GitBlob> {
-    // TODO: do we need to provide commit information in here?
-    return this.repository.refDatabase.refs
-      .asSequence()
-      .map { it.leaf }        // get all actual ref
-      .distinctBy { it.name } // distinct by name
-      .map { it.commits } // get all commit of a ref
-      .reduce { acc, revCommits -> acc.also { it.addAll(revCommits) } }
-      .map { it.blobs }
-      .reduce { acc, blobs -> acc.also { it.addAll(blobs) } }
-      .filter { it.size >= sizeInByte }
-  }
+  fun filter(sizeInByte: Long): List<GitBlob> = this.repository.refDatabase.refs
+    .asSequence()
+    .map { it.leaf }        // get all actual ref
+    .distinctBy { it.name } // distinct by name
+    .map { it.commits } // get all commit of a ref
+    .reduce { acc, revCommits -> acc.also { it.addAll(revCommits) } }
+    .map { it.blobs }
+    .reduce { acc, blobs -> acc.also { it.addAll(blobs) } }
+    .filter { it.size >= sizeInByte }
 }
