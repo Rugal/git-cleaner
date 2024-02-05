@@ -36,7 +36,7 @@ class PackFilter(val repository: Repository) {
    */
   @Throws(IOException::class)
   fun filter(sizeInByte: Long): List<GitPackIndexEntry> =
-    (File("${repository.directory}/objects/pack").listFiles { dir, name ->
+    (File("${repository.directory}/objects/pack").listFiles { _, name ->
       name.startsWith("pack-") && name.endsWith(".idx")
     } ?: arrayOf<File>())
       .flatMap { PackIndex.open(it).objects(sizeInByte) }

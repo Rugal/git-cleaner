@@ -13,7 +13,7 @@
   <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>GIT cleaner parent</name>
+  <name>Git cleaner parent</name>
   <description>Tool that could check and clean large file</description>
   <url>https://github.com/Rugal/git-cleaner.git</url>
 
