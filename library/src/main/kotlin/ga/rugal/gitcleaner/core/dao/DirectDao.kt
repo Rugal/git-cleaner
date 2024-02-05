@@ -21,7 +21,7 @@ import org.eclipse.jgit.treewalk.TreeWalk
   replaceWith = ReplaceWith("CompressedBlobFilter(repository)", imports = arrayOf("ga.rugal.gitcleaner.core.dao.CompressedBlobFilter")),
   level = DeprecationLevel.WARNING
 )
-class DirectDao(val repository: Repository) {
+internal class DirectDao(val repository: Repository) {
   private val LOG = KotlinLogging.logger { }
 
   private val ObjectId.size: Long
