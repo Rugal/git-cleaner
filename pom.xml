@@ -43,7 +43,6 @@
     <module>maven-plugin</module>
   </modules>
 
-
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -150,7 +149,7 @@
         </configuration>
         <executions>
           <execution>
-            <phase>check</phase>
+            <phase>validate</phase>
             <goals>
               <goal>check</goal>
             </goals>
