@@ -5,6 +5,7 @@ import org.springframework.shell.standard.ShellComponent
 import org.springframework.shell.standard.ShellMethod
 import org.springframework.shell.standard.ShellOption
 
+
 /**
  * Find git objects by size.
  */
@@ -26,13 +27,16 @@ class FilterCommand {
       """,
       value = ["pack", "direct"],
     ) method: String,
-  ): String {
+  ) {
 
     val result = when (method) {
       "pack" -> RepositoryService(repository).filter(size, true)
       "direct" -> RepositoryService(repository).filter(size, true)
       else -> listOf()
     }
-    return "Filter large blob completed"
+
+    result.forEach {
+      println("${it.id} - ${it.size} (byte)")
+    }
   }
 }
