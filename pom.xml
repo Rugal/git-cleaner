@@ -32,6 +32,7 @@
       dependency
     -->
     <jgit.dependency.version>6.8.0.202311291450-r</jgit.dependency.version>
+    <spring-shell.version>3.2.1</spring-shell.version>
     <!--
       plugin
     -->
@@ -50,6 +51,13 @@
         <artifactId>org.eclipse.jgit</artifactId>
         <version>${jgit.dependency.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.springframework.shell</groupId>
+        <artifactId>spring-shell-dependencies</artifactId>
+        <version>${spring-shell.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -60,6 +68,10 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.shell</groupId>
+      <artifactId>spring-shell-starter</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>

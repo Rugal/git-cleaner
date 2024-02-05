@@ -12,7 +12,7 @@ import org.eclipse.jgit.lib.Repository
  *
  * @author Rugal Bernstein
  */
-class PackFilter(val repository: Repository) {
+class PackDao(val repository: Repository) {
 
   /**
    * Get all objects in this pack, with object size computed(after compression), then filter the large file by given size.
